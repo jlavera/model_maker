@@ -1,0 +1,79 @@
+@@@DAOEXHEADER@@@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+using ###PROYECTO###.Models;
+using ###PROYECTO###.Models.BO;
+using ###PROYECTO###.Models.Utils;
+
+namespace ###PROYECTO###.Models.DAO {
+    public partial class ###PLURAL###: DAOBase<###SINGULAR###> {
+        @@@ENDDAOEXHEADER@@@
+		@@@DAOEXMETHODS@@@
+        public ###PLURAL###()
+            : base("###SINGULAR###", "###PK###") {
+        }
+        
+        public ###SINGULAR### update(###SINGULAR### _###SINGULAR###) {
+			DB.ExecuteNonQuery("UPDATE"); //FIXIT
+			return DB.ExecuteReaderSingle<###SINGULAR###>("SELECT * FROM ###SINGULAR### WHERE id = @1", _###SINGULAR###.id);
+        }
+
+        public ###SINGULAR### create(###SINGULAR### _###SINGULAR###) {
+            if (_###SINGULAR###.id == null || !_###SINGULAR###.id.HasValue) {
+                int id = DB.ExecuteCastable<int>("INSERT INTO ###SINGULAR### () values (); SELECT SCOPE_IDENTITY();"); //FIXIT
+                return DB.ExecuteReaderSingle<###SINGULAR###>("SELECT * FROM ###SINGULAR### WHERE id = @1", id);
+			} else
+				return update(_###SINGULAR###);
+        }
+		
+		public void delete(int ###SINGULAR###_id) {
+			DB.ExecuteNonQuery("DELETE FROM" + tabla + " WHERE ###PK### = @1", ###SINGULAR###_id);
+        }
+		@@@ENDDAOEXMETHODS@@@
+		
+		@@@DAOEXUQ@@@
+		public ###SINGULAR### retrieveBy_###ATTRIBUTE###(object _value){
+			
+            return DB.ExecuteReaderSingle<###SINGULAR###>("SELECT * FROM " + tabla + " WHERE ###COLUMN###  = @1", _value);
+			
+		}
+		@@@ENDDAOEXUQ@@@
+		
+		@@@DAOEXIX@@@
+		public List<###SINGULAR###> retrieveBy_###ATTRIBUTE###(object _value){
+			
+            return DB.ExecuteReader<###SINGULAR###>("SELECT * FROM " + tabla + " WHERE ###COLUMN###  = @1", _value);
+			
+		}
+		@@@ENDDAOEXIX@@@
+		
+		@@@DAOEXPK@@@
+		public ###SINGULAR### retrieveBy_###ATTRIBUTE###(object _value){
+			
+            return DB.ExecuteReaderSingle<###SINGULAR###>("SELECT * FROM " + tabla + " WHERE ###COLUMN### = @1", _value);
+			
+		}
+		@@@ENDDAOEXPK@@@
+		
+		@@@DAOEXFK@@@
+		public List<###SINGULAR###> retrieveBy_###ATTRIBUTE###(object _value){
+			
+            return DB.ExecuteReader<###SINGULAR###>("SELECT * FROM " + tabla + " WHERE ###COLUMN###  = @1", _value);
+			
+		}
+		@@@ENDDAOEXFK@@@
+		
+		@@@DAOEXFKREF@@@
+		public List<###SINGULAR###> retrieveBy_###ATTRIBUTE###(object _value){
+			
+            return DB.ExecuteReader<###SINGULAR###>("SELECT * FROM " + tabla + " WHERE ###COLUMN###  = @1", _value);
+			
+		}
+		@@@ENDDAOEXFKREF@@@
+		@@@DAOEXEND@@@
+    }
+}
+@@@ENDDAOEXEND@@@

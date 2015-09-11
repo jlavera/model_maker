@@ -1,0 +1,138 @@
+@@@BOEXHEADER@@@
+using System;
+using System.Text;
+using System.Linq;
+using System.Web;
+using System.Data;
+using System.Collections.Generic;
+
+using ###PROYECTO###.Models.DAO;
+
+namespace ###PROYECTO###.Models.BO {
+    public partial class ###SINGULAR### : IBO<###SINGULAR###>{
+		@@@ENDBOEXHEADER@@@
+	
+		@@@BOEXPROPERTIES@@@
+        public ###TIPODEDATO### ###ATTRIBUTE### {get; set;}
+		@@@ENDBOEXPROPERTIES@@@
+        
+		@@@BOEXFK@@@
+		
+		public ###TIPODEDATO### ###ATTRIBUTE### {get; set;}
+		private ###FKTABLE### _###ATTRIBUTE###_item;
+        public ###FKTABLE### ###ATTRIBUTE###_item {
+			get{        
+				if (_###ATTRIBUTE###_item == null && ###ATTRIBUTE### != null){
+					_###ATTRIBUTE###_item = new DAO###FKTABLE###().retrieveBy_###FKCOLUMN###(###ATTRIBUTE###);
+                }
+
+				return _###ATTRIBUTE###_item;
+			}
+			set{
+				_###ATTRIBUTE###_item = value;
+			}
+        }
+		@@@ENDBOEXFK@@@
+		
+		@@@BOEXCONSTRUCTORES@@@
+		
+        public ###SINGULAR###() {}
+
+        public ###SINGULAR###(DataRow dr) {
+            initialize(dr);
+        }
+		
+		@@@ENDBOEXCONSTRUCTORES@@@
+		
+		@@@BOEXINICIALIZADORHEADER@@@
+		
+        public ###SINGULAR### initialize(DataRow _dr) {
+			
+			dr = _dr;
+            DataColumnCollection dcc = dr.Table.Columns;
+	
+		@@@ENDBOEXINICIALIZADORHEADER@@@
+
+			@@@BOEXINICIALIZADORITEMSTRING@@@
+            if (dcc.Contains("###COLUMN###"))
+                ###FIELD### = (dr["###COLUMN###"] == DBNull.Value) ? null : dr["###COLUMN###"].ToString();
+			@@@ENDBOEXINICIALIZADORITEMSTRING@@@
+
+			@@@BOEXINICIALIZADORITEMCHAR@@@
+            if (dcc.Contains("###COLUMN###"))
+                ###FIELD### = (dr["###COLUMN###"] == DBNull.Value) ? null : (char?) dr["###COLUMN###"].ToString()[0];
+			@@@ENDBOEXINICIALIZADORITEMCHAR@@@
+
+			@@@BOEXINICIALIZADORITEMSHORT@@@
+            if (dcc.Contains("###COLUMN###"))
+                ###FIELD### = (dr["###COLUMN###"] == DBNull.Value) ? null : (short?) Convert.ToInt16(dr["###COLUMN###"]);
+			@@@ENDBOEXINICIALIZADORITEMSHORT@@@
+
+			@@@BOEXINICIALIZADORITEMINT@@@
+            if (dcc.Contains("###COLUMN###"))
+                ###FIELD### = (dr["###COLUMN###"] == DBNull.Value) ? null : (int?) Convert.ToInt32(dr["###COLUMN###"]);
+			@@@ENDBOEXINICIALIZADORITEMINT@@@
+
+			@@@BOEXINICIALIZADORITEMLONG@@@
+            if (dcc.Contains("###COLUMN###"))
+                ###FIELD### = (dr["###COLUMN###"] == DBNull.Value) ? null : (long?) Convert.ToInt64(dr["###COLUMN###"]);
+			@@@ENDBOEXINICIALIZADORITEMLONG@@@
+
+			@@@BOEXINICIALIZADORITEMDATETIME@@@
+            if (dcc.Contains("###COLUMN###"))
+                ###FIELD### = (dr["###COLUMN###"] == DBNull.Value) ? null : (DateTime?) Convert.ToDateTime(dr["###COLUMN###"]);
+			@@@ENDBOEXINICIALIZADORITEMDATETIME@@@
+
+			@@@BOEXINICIALIZADORITEMBOOL@@@
+            if (dcc.Contains("###COLUMN###"))
+                ###FIELD### = (dr["###COLUMN###"] == DBNull.Value) ? null : (bool?) Convert.ToBoolean(dr["###COLUMN###"]);
+			@@@ENDBOEXINICIALIZADORITEMBOOL@@@
+
+			@@@BOEXINICIALIZADORITEMBYTEARRAY@@@
+            if (dcc.Contains("###COLUMN###"))
+                ###FIELD### = (dr["###COLUMN###"] == DBNull.Value) ? new byte[0] : Encoding.UTF8.GetBytes(dr["###COLUMN###"].ToString());
+			@@@ENDBOEXINICIALIZADORITEMBYTEARRAY@@@
+
+		@@@BOEXINICIALIZADORFOOTER@@@
+			
+            return this;
+        }
+		@@@ENDBOEXINICIALIZADORFOOTER@@@
+		
+		@@@BOEXMETHODS@@@
+		
+        private DataRow dr;
+		
+		public ###SINGULAR### setData(DataRow dr) {
+            initialize(dr);
+			
+			return this;
+        }
+		
+        public void setById(object _id) {
+            initialize(new ###PLURAL###().retrieveBy_###PK###(_id).dr);
+        }
+		
+		public override bool Equals(object obj) {
+            if (obj == null)
+                return false;
+
+            ###SINGULAR### aux = obj as ###SINGULAR###;
+            if ((object)aux == null)
+                return false;
+
+            return aux.id == id;
+		}
+		
+		@@@ENDBOEXMETHODS@@@
+		
+		@@@BOEXEXTERN@@@
+		public List<###FKTABLE###> retrieve_###FKTABLE###(){
+			return new ###FKTABLEPLURAL###().retrieveBy_###FKCOLUMN###();
+		}
+		@@@ENDBOEXEXTERN@@@
+		
+		@@@BOEXEND@@@
+    }
+}
+@@@ENDBOEXEND@@@

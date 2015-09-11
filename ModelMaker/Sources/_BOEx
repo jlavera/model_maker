@@ -1,0 +1,21 @@
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+
+using ###PROYECTO###.Models.DAO;
+
+namespace ###PROYECTO###.Models.BO {
+    public partial class ###SINGULAR### {
+
+        public override int GetHashCode() {
+            return base.GetHashCode();
+        }
+		
+        public override string ToString() {
+            return base.ToString();
+        }
+		
+    }
+}
