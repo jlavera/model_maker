@@ -82,19 +82,7 @@ namespace ModelMaker {
                 return;
             }
 
-            tablas = new List<Table>();
-
-            foreach (Column col in columnas) {
-                string _tab = col.tabla;
-
-                List<Table> aux = tablas.Where(t => t.ToString() == _tab).ToList<Table>();
-
-                if (aux.Count == 0) {
-                    tablas.Add(new Table(col));
-
-                } else
-                    aux[0].addColumn(col);
-            }
+            tablas = columnas.GroupBy(c => c.tabla).Select(item => new Table(item.Key, item.ToList())).ToList();
 
             refreshTables();
         }
@@ -131,7 +119,10 @@ namespace ModelMaker {
                 return;
 
             //--lol
-            ((Column)((Table)clbTablas.SelectedItem).columnas.Where(c => c.posicion == (int)dgvColumnas["col_posicion", e.RowIndex].Value).ElementAt(0)).nombreAtributo = dgvColumnas[e.ColumnIndex, e.RowIndex].Value.ToString();
+            (
+                (Column)
+                ((Table)clbTablas.SelectedItem).columnas.Where(c => c.posicion == (int)dgvColumnas["col_posicion", e.RowIndex].Value).ElementAt(0))
+                .nombreAtributo = dgvColumnas[e.ColumnIndex, e.RowIndex].Value.ToString();
         }
 
         private void bGenerar_Click(object sender, EventArgs e) {

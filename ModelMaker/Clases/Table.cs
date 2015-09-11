@@ -24,15 +24,9 @@ namespace ModelMaker.Clases {
             }
         }
 
-        public Table(Column _col) {
-
-            columnas = new List<Column>();
-
-            if (_col == null)
-                return;
-
-            tabla = _col.tabla;
-            columnas.Add(_col);
+        public Table(string nombre, List<Column> _col) {
+            tabla = nombre;
+            columnas = _col;
         }
 
         public void addColumn(DataRow _dr) {
