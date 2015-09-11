@@ -13,20 +13,20 @@ using System.Configuration;
 using System.Collections.Specialized;
 
 using ModelMaker.Clases;
+using ModelMaker.Utils;
 
 namespace ModelMaker {
     public partial class Main : Form {
 
         private List<Column> columnas;
         private List<Table> tablas;
+        private Controles ctrs;
 
         public Main() {
             InitializeComponent();
         }
 
         private void Main_Load(object sender, EventArgs e) {
-            cmbMotor.SelectedIndex = 0;
-
             //--Levantar config file
             XmlDocument doc = new XmlDocument();
             try {
@@ -54,14 +54,21 @@ namespace ModelMaker {
         }
 
         private void bCargar_Click(object sender, EventArgs e) {
-            
-            if (cmbMotor.SelectedItem == null || tbDireccion.Text == "" || tbDb.Text == "" || tbUsuario.Text == "" || tbPassword.Text == "") {
-                MessageBox.Show("Falta completar campos");
-                return;
+            ctrs = new Controles() {
+                Direccion = tbDireccion.Text, 
+                Database = tbDb.Text, 
+                User = tbUsuario.Text,
+                Password = tbPassword.Text 
+            };
+
+            try {
+                ctrs.Vaidate();
+            } catch (MyException ex) {
+                MessageBox.Show(ex.Message);
             }
 
             //--Asignar datos de la db
-            DB.setData(cmbMotor.SelectedItem.ToString(), tbDireccion.Text, tbDb.Text, tbUsuario.Text, tbPassword.Text);
+            DB.setData(ctrs);
 
             //--Levantar y ejecutar query
             StreamReader sr = null;
@@ -114,17 +121,6 @@ namespace ModelMaker {
             }
         }
 
-        private void dgvColumnas_CellValueChanged(object sender, DataGridViewCellEventArgs e) {
-            if (e.RowIndex == -1)
-                return;
-
-            //--lol
-            (
-                (Column)
-                ((Table)clbTablas.SelectedItem).columnas.Where(c => c.posicion == (int)dgvColumnas["col_posicion", e.RowIndex].Value).ElementAt(0))
-                .nombreAtributo = dgvColumnas[e.ColumnIndex, e.RowIndex].Value.ToString();
-        }
-
         private void bGenerar_Click(object sender, EventArgs e) {
             if (tbProyecto.Text == "") {
                 MessageBox.Show("Falta nombre del proyecto.");
@@ -136,52 +132,14 @@ namespace ModelMaker {
                 return;
             }
 
-            FileHandler.Proyecto = tbProyecto.Text;
-            FileHandler.OutPutFolder = tbOutput.Text + "/Output";
-
-            if (Directory.Exists(FileHandler.OutPutFolder))
-                Directory.Delete(FileHandler.OutPutFolder, true);
-
-            //--Crea las carpetas necesarias si no existen
-            if (!Directory.Exists(FileHandler.OutPutFolder))
-                Directory.CreateDirectory(FileHandler.OutPutFolder);
-            if (!Directory.Exists(FileHandler.OutPutDAOFolder))
-                Directory.CreateDirectory(FileHandler.OutPutDAOFolder);
-            if (!Directory.Exists(FileHandler.OutPut_DAOFolder))
-                Directory.CreateDirectory(FileHandler.OutPut_DAOFolder);
-            if (!Directory.Exists(FileHandler.OutPutBOFolder))
-                Directory.CreateDirectory(FileHandler.OutPutBOFolder);
-            if (!Directory.Exists(FileHandler.OutPut_BOFolder))
-                Directory.CreateDirectory(FileHandler.OutPut_BOFolder);
-            if (!Directory.Exists(FileHandler.OutPutUtilsFolder))
-                Directory.CreateDirectory(FileHandler.OutPutUtilsFolder);
-
-            var ctrs = new Controles() { Direccion = tbDireccion.Text, Database = tbDb.Text, User = tbUsuario.Text, Password = tbPassword.Text };
-
-            //--Crear DAOBase
-            FileHandler.copyFile(FileHandler.Archivos.DAOBase, FileHandler.OutPutDAOFolder + "/DAOBase.cs", tbProyecto.Text, ctrs);
-
-            //--Crear IBO
-            FileHandler.copyFile(FileHandler.Archivos.IBO, FileHandler.OutPutBOFolder + "/IBO.cs", tbProyecto.Text, ctrs);
-
-            //--Crear DB
-            FileHandler.copyFile(FileHandler.Archivos.DB, FileHandler.OutPutUtilsFolder + "/DB.cs", tbProyecto.Text, ctrs);
-
-            //--Crear MyException
-            FileHandler.copyFile(FileHandler.Archivos.EXCEPTION, FileHandler.OutPutUtilsFolder + "/MyException.cs", tbProyecto.Text, ctrs);
-
-            //--Crear los DAOs
-            foreach (Table tlb in clbTablas.CheckedItems)
-                FileHandler.createClassFiles(tlb);
+            //--Procesar las tablas checkeadas
+            new FileHandler(tbProyecto.Text, tbOutput.Text + "/Output", ctrs).Work(clbTablas.CheckedItems.Cast<Table>());
 
             MessageBox.Show("Done", "Well", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
         }
 
         private void bElegirOutput_Click(object sender, EventArgs e) {
-            if (folderBrowserDialog1.ShowDialog() == DialogResult.OK){
-                tbOutput.Text = folderBrowserDialog1.SelectedPath;
-            }
-                
+            if (folderBrowserDialog1.ShowDialog() == DialogResult.OK) tbOutput.Text = folderBrowserDialog1.SelectedPath;                
         }
     }
 }

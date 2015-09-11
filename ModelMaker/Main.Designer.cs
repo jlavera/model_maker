@@ -23,8 +23,6 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
-            this.cmbMotor = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.gbConfig = new System.Windows.Forms.GroupBox();
             this.label5 = new System.Windows.Forms.Label();
             this.bCargar = new System.Windows.Forms.Button();
@@ -66,26 +64,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvColumnas)).BeginInit();
             this.SuspendLayout();
             // 
-            // cmbMotor
-            // 
-            this.cmbMotor.Enabled = false;
-            this.cmbMotor.FormattingEnabled = true;
-            this.cmbMotor.Items.AddRange(new object[] {
-            "MS-SQL"});
-            this.cmbMotor.Location = new System.Drawing.Point(22, 43);
-            this.cmbMotor.Name = "cmbMotor";
-            this.cmbMotor.Size = new System.Drawing.Size(121, 21);
-            this.cmbMotor.TabIndex = 0;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(19, 27);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(37, 13);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Motor:";
-            // 
             // gbConfig
             // 
             this.gbConfig.Controls.Add(this.label5);
@@ -97,8 +75,6 @@
             this.gbConfig.Controls.Add(this.tbDb);
             this.gbConfig.Controls.Add(this.tbPassword);
             this.gbConfig.Controls.Add(this.tbUsuario);
-            this.gbConfig.Controls.Add(this.label1);
-            this.gbConfig.Controls.Add(this.cmbMotor);
             this.gbConfig.Location = new System.Drawing.Point(12, 12);
             this.gbConfig.Name = "gbConfig";
             this.gbConfig.Size = new System.Drawing.Size(810, 78);
@@ -109,7 +85,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(164, 27);
+            this.label5.Location = new System.Drawing.Point(19, 26);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(55, 13);
             this.label5.TabIndex = 9;
@@ -117,9 +93,9 @@
             // 
             // bCargar
             // 
-            this.bCargar.Location = new System.Drawing.Point(693, 26);
+            this.bCargar.Location = new System.Drawing.Point(532, 27);
             this.bCargar.Name = "bCargar";
-            this.bCargar.Size = new System.Drawing.Size(98, 37);
+            this.bCargar.Size = new System.Drawing.Size(259, 37);
             this.bCargar.TabIndex = 5;
             this.bCargar.Text = "Cargar";
             this.bCargar.UseVisualStyleBackColor = true;
@@ -127,7 +103,7 @@
             // 
             // tbDireccion
             // 
-            this.tbDireccion.Location = new System.Drawing.Point(168, 44);
+            this.tbDireccion.Location = new System.Drawing.Point(23, 43);
             this.tbDireccion.Name = "tbDireccion";
             this.tbDireccion.Size = new System.Drawing.Size(100, 20);
             this.tbDireccion.TabIndex = 1;
@@ -135,7 +111,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(544, 26);
+            this.label4.Location = new System.Drawing.Point(399, 25);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(78, 13);
             this.label4.TabIndex = 7;
@@ -144,7 +120,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(417, 26);
+            this.label3.Location = new System.Drawing.Point(272, 25);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(64, 13);
             this.label3.TabIndex = 6;
@@ -153,7 +129,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(284, 26);
+            this.label2.Location = new System.Drawing.Point(139, 25);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(46, 13);
             this.label2.TabIndex = 5;
@@ -161,21 +137,21 @@
             // 
             // tbDb
             // 
-            this.tbDb.Location = new System.Drawing.Point(547, 45);
+            this.tbDb.Location = new System.Drawing.Point(402, 44);
             this.tbDb.Name = "tbDb";
             this.tbDb.Size = new System.Drawing.Size(100, 20);
             this.tbDb.TabIndex = 4;
             // 
             // tbPassword
             // 
-            this.tbPassword.Location = new System.Drawing.Point(420, 45);
+            this.tbPassword.Location = new System.Drawing.Point(275, 44);
             this.tbPassword.Name = "tbPassword";
             this.tbPassword.Size = new System.Drawing.Size(100, 20);
             this.tbPassword.TabIndex = 3;
             // 
             // tbUsuario
             // 
-            this.tbUsuario.Location = new System.Drawing.Point(287, 44);
+            this.tbUsuario.Location = new System.Drawing.Point(142, 43);
             this.tbUsuario.Name = "tbUsuario";
             this.tbUsuario.Size = new System.Drawing.Size(100, 20);
             this.tbUsuario.TabIndex = 2;
@@ -247,7 +223,6 @@
             this.dgvColumnas.Name = "dgvColumnas";
             this.dgvColumnas.Size = new System.Drawing.Size(1009, 274);
             this.dgvColumnas.TabIndex = 2;
-            this.dgvColumnas.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvColumnas_CellValueChanged);
             // 
             // col_posicion
             // 
@@ -439,8 +414,6 @@
 
         #endregion
 
-        private System.Windows.Forms.ComboBox cmbMotor;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.GroupBox gbConfig;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;

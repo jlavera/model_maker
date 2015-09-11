@@ -4,51 +4,41 @@ using System.Text;
 using System.IO;
 using System.Text.RegularExpressions;
 
+using ModelMaker.Utils;
+
 namespace ModelMaker.Clases {
-    public static class FileHandler {
+    public class FileHandler {
 
-        public static string OutPutFolder { get; set; }
-        public static string OutPutBOFolder { get { return OutPutFolder+ "/BO/"; } }
-        public static string OutPutDAOFolder { get { return OutPutFolder + "/DAO/"; } }
-        public static string OutPut_DAOFolder { get { return OutPutFolder + "/_DAO/"; } }
-        public static string OutPut_BOFolder { get { return OutPutFolder + "/_BO/"; } }
-        public static string OutPutUtilsFolder { get { return OutPutFolder + "/Utils/"; } }
-        public static string SourceFolder { get { return AppDomain.CurrentDomain.BaseDirectory + "/Sources"; } }
-        public static string SourceDAOBase { get { return SourceFolder + "/DAOBase.cs"; } }
-        public static string Source_DAOFile { get { return SourceFolder + "/_DAOEx"; } }
-        public static string Source_BOFile { get { return SourceFolder + "/_BOEx"; } }
-        public static string SourceIBO { get { return SourceFolder + "/IBO.cs"; } }
-        public static string SourceDBFile { get { return SourceFolder + "/DB.cs"; } }
-        public static string SourceEXCFile { get { return SourceFolder + "/MyException.cs"; } }
+        private Controles ctrs;
 
-        private static Dictionary<string, string> tiposDeDato = new Dictionary<string, string>() {
-            {"int", "int?"},
-            {"smallint", "short?"},
-            {"bigint", "long?"},
-            {"text", "string"},
-            {"varchar", "string"},
-            {"datetime", "DateTime?"},
-            {"date", "DateTime?"},
-            {"bit", "bool?"},
-            {"char", "char?"},
-            {"varbinary", "byte[]"},
-            {"numeric", "int?"}
+        public string OutPutFolder { get; set; }
+        public string OutPutBOFolder { get { return OutPutFolder+ "/BO/"; } }
+        public string OutPutDAOFolder { get { return OutPutFolder + "/DAO/"; } }
+        public string OutPut_DAOFolder { get { return OutPutFolder + "/_DAO/"; } }
+        public string OutPut_BOFolder { get { return OutPutFolder + "/_BO/"; } }
+        public string OutPutUtilsFolder { get { return OutPutFolder + "/Utils/"; } }
+        public string SourceFolder { get { return AppDomain.CurrentDomain.BaseDirectory + "/Sources"; } }
+        public string SourceDAOBase { get { return SourceFolder + "/DAOBase.cs"; } }
+        public string Source_DAOFile { get { return SourceFolder + "/_DAOEx"; } }
+        public string Source_BOFile { get { return SourceFolder + "/_BOEx"; } }
+        public string SourceIBO { get { return SourceFolder + "/IBO.cs"; } }
+        public string SourceDBFile { get { return SourceFolder + "/DB.cs"; } }
+        public string SourceEXCFile { get { return SourceFolder + "/MyException.cs"; } }
+
+        private List<TipoDato> tiposDeDato = new List<TipoDato>(){
+            new TipoDato("int", "int", "int?"),
+            new TipoDato("smallint", "short", "short?"),
+            new TipoDato("bigint", "long", "long?"),
+            new TipoDato("text", "string", "string"),
+            new TipoDato("varchar", "string", "string"),
+            new TipoDato("datetime", "DateTime", "DateTime?"),
+            new TipoDato("date", "DateTime", "DateTime?"),
+            new TipoDato("bit", "bool", "bool?"),
+            new TipoDato("char", "char", "char?"),
+            new TipoDato("numeric", "int", "int?")
         };
 
-        private static Dictionary<string, string> tiposDeDato2 = new Dictionary<string, string>() {
-            {"int", "int"},
-            {"smallint", "short"},
-            {"bigint", "long"},
-            {"text", "string"},
-            {"varchar", "string"},
-            {"datetime", "DateTime"},
-            {"date", "DateTime"},
-            {"bit", "bool"},
-            {"char", "char"},
-            {"numeric", "int"}
-        };
-
-        public static string Proyecto { get; set; }
+        public string Proyecto { get; set; }
         public enum Archivos { DAOBase, _DAO, _BO, IBO, DB, EXCEPTION };
         public enum SeccionDAO { HEADER, METHODS, UQ, IX, FK, FKREF, END, PK };
         public enum SeccionBO {
@@ -58,17 +48,11 @@ namespace ModelMaker.Clases {
             INICIALIZADORITEMSHORT, INICIALIZADORITEMINT, INICIALIZADORITEMLONG,
             INICIALIZADORITEMBYTEARRAY
         };
-        /// <summary>
-        /// Copiar un archivo de los source
-        /// </summary>
-        /// <param name="_source">Archivo</param>
-        /// <param name="_to">Destino</param>
-        public static void copyFile(Archivos _source, string _to, string _proyecto, Controles ctrs) {
-            copyFile(_source, _to, _proyecto, null, null, ctrs);
-        }
 
-        public static void copyFile(Archivos _source, string _to, string _proyecto, string _singular, string _plural) {
-            copyFile(_source, _to, _proyecto, _singular, _plural, null);
+        public FileHandler(string _proyecto, string _folder, Controles _ctrs) {
+            Proyecto = _proyecto;
+            OutPutFolder = _folder;
+            ctrs = _ctrs;
         }
 
         /// <summary>
@@ -76,7 +60,16 @@ namespace ModelMaker.Clases {
         /// </summary>
         /// <param name="_source">Archivo</param>
         /// <param name="_to">Destino</param>
-        public static void copyFile(Archivos _source, string _to, string _proyecto, string _singular, string _plural, Controles ctrs) {
+        public void copyFile(Archivos _source, string _to) {
+            copyFile(_source, _to, null, null);
+        }
+
+        /// <summary>
+        /// Copiar un archivo de los source
+        /// </summary>
+        /// <param name="_source">Archivo</param>
+        /// <param name="_to">Destino</param>
+        public void copyFile(Archivos _source, string _to, string _singular, string _plural) {
             string _from = null;
 
             switch (_source) {
@@ -105,7 +98,7 @@ namespace ModelMaker.Clases {
             StreamReader sr = new StreamReader(_from);
             StreamWriter sw = new StreamWriter(_to, false);
             sw.Write(sr.ReadToEnd()
-                .Replace("###PROYECTO###", _proyecto)
+                .Replace("###PROYECTO###", Proyecto)
                 .Replace("###SINGULAR###", _singular)
                 .Replace("###PLURAL###", _plural)
                 .Replace("###DIRECCION###", ctrs != null? ctrs.Direccion : "")
@@ -121,7 +114,7 @@ namespace ModelMaker.Clases {
         /// Crear la clase para una tabla
         /// </summary>
         /// <param name="_table">Tabla</param>
-        public static void createClassFiles(Table _table) {
+        public void createClassFiles(Table _table) {
             
             //--Crear DAO
             StreamWriter swDAO = new StreamWriter(OutPutDAOFolder + "DAO" + _table.nombreClase + ".cs", false);
@@ -143,7 +136,7 @@ namespace ModelMaker.Clases {
 
             //--Crear los _DAO si no existen
             if (!File.Exists(OutPut_DAOFolder + "_DAO" + _table.nombreClase + ".cs"))
-                copyFile(Archivos._DAO, OutPut_DAOFolder + "_DAO" + _table.nombreClase + ".cs", Proyecto, null, "DAO" + _table.nombreClase);
+                copyFile(Archivos._DAO, OutPut_DAOFolder + "_DAO" + _table.nombreClase + ".cs", null, "DAO" + _table.nombreClase);
 
             //--Crear BO
             StreamWriter swBO = new StreamWriter(OutPutBOFolder + _table.nombreClase + ".cs", false);
@@ -174,7 +167,7 @@ namespace ModelMaker.Clases {
 
             //--Crear los _BO si no existen
             if (!File.Exists(OutPut_BOFolder + _table.nombreClase + ".cs"))
-                copyFile(Archivos._BO, OutPut_BOFolder + _table.nombreClase + ".cs", Proyecto, _table.nombreClase, "DAO" + _table.nombreClase);
+                copyFile(Archivos._BO, OutPut_BOFolder + _table.nombreClase + ".cs", _table.nombreClase, "DAO" + _table.nombreClase);
         }
 
         /// <summary>
@@ -184,21 +177,13 @@ namespace ModelMaker.Clases {
         /// <param name="_table">Tabla</param>
         /// <param name="_col">Columna</param>
         /// <returns></returns>
-        private static string getBOExSection(SeccionBO _seccion, Table _table, Column _col) {
+        private string getBOExSection(SeccionBO _seccion, Table _table, Column _col) {
 
             //--Cargar la sección
             string text = buildBOExSection(_seccion.ToString());
+            TipoDato tipo;
 
-            string t1 = null;
-            string t2 = null;
-            try{
-                if (_col != null) {
-                    t1 = tiposDeDato[_col.tipoDeDato];
-                    t2 = tiposDeDato2[_col.tipoDeDato];
-                }
-            }catch(KeyNotFoundException){
-                throw new Exception("El tipo de dato " + _col.tipoDeDato + " no es soportado");
-            }
+            tipo = tiposDeDato.GetByDB(_col.tipoDeDato);
 
             switch (_seccion) {
                 case SeccionBO.HEADER:
@@ -206,13 +191,13 @@ namespace ModelMaker.Clases {
                 case SeccionBO.CONSTRUCTORES:
                     return text.Replace("###SINGULAR###", _table.nombreClase);
                 case SeccionBO.PROPERTIES:
-                    return text.Replace("###TIPODEDATO###", t1).Replace("###ATTRIBUTE###", _col.nombreAtributo);
+                    return text.Replace("###TIPODEDATO###", tipo.cs_name).Replace("###ATTRIBUTE###", _col.nombreAtributo);
                 case SeccionBO.FK:
-                    return text.Replace("###FKTABLE###", _col.foreignTable).Replace("###FKCOLUMN###", _col.foreignColumn).Replace("###ATTRIBUTE###", _col.nombreAtributo).Replace("###TIPODEDATO###", t1).Replace("###SINGULAR###", _table.nombreClase).Replace("###COLUMN###", _col.nombreAtributo);
+                    return text.Replace("###FKTABLE###", _col.foreignTable).Replace("###FKCOLUMN###", _col.foreignColumn).Replace("###ATTRIBUTE###", _col.nombreAtributo).Replace("###TIPODEDATO###", tipo.cs_name).Replace("###SINGULAR###", _table.nombreClase).Replace("###COLUMN###", _col.nombreAtributo);
                 case SeccionBO.GET:
-                    return text.Replace("###TIPODEDATO###", t2).Replace("###ATTRIBUTE###", _col.nombreAtributo);
+                    return text.Replace("###TIPODEDATO###", tipo.cs_opt_name).Replace("###ATTRIBUTE###", _col.nombreAtributo);
                 case SeccionBO.SET:
-                    return text.Replace("###TIPODEDATO###", t2).Replace("###ATTRIBUTE###", _col.nombreAtributo).Replace("###SINGULAR###", _table.nombreClase);
+                    return text.Replace("###TIPODEDATO###", tipo.cs_name).Replace("###ATTRIBUTE###", _col.nombreAtributo).Replace("###SINGULAR###", _table.nombreClase);
                 case SeccionBO.METHODS:
                     return text.Replace("###PLURAL###", "DAO" + _table.nombreClase).Replace("###SINGULAR###", _table.nombreClase).Replace("###PK###", _table.pk.columna);
                 case SeccionBO.INICIALIZADORHEADER:
@@ -241,7 +226,7 @@ namespace ModelMaker.Clases {
         /// Guarda en el diccionario una sección
         /// </summary>
         /// <param name="_seccion">Sección</param>
-        private static string buildBOExSection(string _seccion) {
+        private string buildBOExSection(string _seccion) {
 
             string temp = null;
             string aux;
@@ -269,7 +254,7 @@ namespace ModelMaker.Clases {
         /// <param name="_seccion">Sección</param>
         /// <param name="_table">Tabla</param>
         /// <returns></returns>
-        private static string getDAOExSection(SeccionDAO _seccion, Table _table, Column _col) {
+        private string getDAOExSection(SeccionDAO _seccion, Table _table, Column _col) {
 
             //--Cargar la sección
             string text = buildDAOExSection(_seccion.ToString());
@@ -300,7 +285,7 @@ namespace ModelMaker.Clases {
         /// Guarda en el diccionario una sección
         /// </summary>
         /// <param name="_seccion">Sección</param>
-        private static string buildDAOExSection(string _seccion) {
+        private string buildDAOExSection(string _seccion) {
 
             string temp = null;
             string aux;
@@ -326,7 +311,7 @@ namespace ModelMaker.Clases {
         /// </summary>
         /// <param name="_tipo">Tipo de dato</param>
         /// <returns></returns>
-        private static SeccionBO getBOSection(string _tipo, int? _largo) {
+        private SeccionBO getBOSection(string _tipo, int? _largo) {
 
             if (_tipo == "char" && _largo == 1)
                 return SeccionBO.INICIALIZADORITEMCHAR;
@@ -355,5 +340,39 @@ namespace ModelMaker.Clases {
             throw new Exception("Tipo de dato: " + _tipo + " no soportado.");
         }
 
+        public void Work(IEnumerable<Table> tables) {
+            //--Carpeta raiz de salida
+            //if (Directory.Exists(OutPutFolder))
+            //    Directory.Delete(OutPutFolder, true);
+
+            //--Crea las carpetas necesarias si no existen
+            var create = new Action<String>(s => {
+                if (!Directory.Exists(s)) Directory.CreateDirectory(s);
+            });
+
+            create.Invoke(OutPutFolder);
+            create.Invoke(OutPutDAOFolder);
+            create.Invoke(OutPut_DAOFolder);
+            create.Invoke(OutPutBOFolder);
+            create.Invoke(OutPut_BOFolder);
+            create.Invoke(OutPutUtilsFolder);
+
+            //--Crear DAOBase
+            copyFile(FileHandler.Archivos.DAOBase, OutPutDAOFolder + "/DAOBase.cs");
+
+            //--Crear IBO
+            copyFile(FileHandler.Archivos.IBO, OutPutBOFolder + "/IBO.cs");
+
+            //--Crear DB
+            copyFile(FileHandler.Archivos.DB, OutPutUtilsFolder + "/DB.cs");
+
+            //--Crear MyException
+            copyFile(FileHandler.Archivos.EXCEPTION, OutPutUtilsFolder + "/MyException.cs");
+
+            //--Crear los DAOs
+            foreach (Table tlb in tables) createClassFiles(tlb);
+        }
+
     }
+
 }

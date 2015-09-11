@@ -5,7 +5,7 @@ using System.Text;
 using System.Data;
 using System.Threading.Tasks;
 
-namespace ModelMaker.Clases {
+namespace ModelMaker.Utils {
     public interface IBO<T> where T: new() {
 
         T setData(DataRow dr);

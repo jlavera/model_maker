@@ -4,8 +4,9 @@ using System.Linq;
 using System.Web;
 using System.Data;
 using System.Data.SqlClient;
+using ModelMaker.Clases;
 
-namespace ModelMaker.Clases {
+namespace ModelMaker.Utils {
     static public class DB {﻿
 
         static private string motor { get; set; }
@@ -24,12 +25,11 @@ namespace ModelMaker.Clases {
         static private SqlConnection sqlCon;
         static public Exception exception;
 
-        static public void setData(string _motor, string _direccion, string _db, string _username, string _password) {
-            motor = _motor;
-            direccion = _direccion;
-            database = _db;
-            username = _username;
-            password = _password;
+        static public void setData(Controles ctrs){
+            direccion = ctrs.Direccion;
+            database = ctrs.Database;
+            username = ctrs.User;
+            password = ctrs.Password;
 
             sqlCon = new SqlConnection(strCon);
         }
@@ -76,7 +76,7 @@ namespace ModelMaker.Clases {
         /// <returns></returns>
         static public T ExecuteReaderSingle<T>(string command, params object[] parameters) where T : IBO<T>, new() {
 
-            JDataTable dt = new JDataTable();
+            DataTable dt = new DataTable();
             try {
 
                 sqlCon.Open();

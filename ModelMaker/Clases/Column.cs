@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data;
+using ModelMaker.Utils;
 
 namespace ModelMaker.Clases {
     /// <summary>
@@ -65,9 +66,11 @@ namespace ModelMaker.Clases {
         }
 
         public object[] ToArray() {
-            return new Object[] { posicion, columna, tipoDeDato, largoMaximo, precisionNumerica,
-                                    defaultValue, nullable, primaryKey, uniqueKey, indexKey,
-                                    foreignKey, foreignTable, foreignColumn, foreignKeyReferenced};
+            return new Object[] {
+                posicion, columna, tipoDeDato, largoMaximo, precisionNumerica,
+                defaultValue, nullable, primaryKey, uniqueKey, indexKey,
+                foreignKey, foreignTable, foreignColumn, foreignKeyReferenced
+            };
         }
 
         public override string ToString() {
