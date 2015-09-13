@@ -133,7 +133,8 @@ namespace ModelMaker {
             }
 
             //--Procesar las tablas checkeadas
-            new FileHandler(tbProyecto.Text, tbOutput.Text + "/Output", ctrs).Work(clbTablas.CheckedItems.Cast<Table>());
+            new FilesHandler(tbProyecto.Text, tbOutput.Text + "/Output", ctrs)
+                .Generate(clbTablas.CheckedItems.Cast<Table>().ToList());
 
             MessageBox.Show("Done", "Well", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
         }

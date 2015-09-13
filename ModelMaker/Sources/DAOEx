@@ -1,4 +1,4 @@
-@@@DAOEXHEADER@@@
+@@@HEADER@@@
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +10,8 @@ using ###PROYECTO###.Models.Utils;
 
 namespace ###PROYECTO###.Models.DAO {
     public partial class ###PLURAL###: DAOBase<###SINGULAR###> {
-        @@@ENDDAOEXHEADER@@@
-		@@@DAOEXMETHODS@@@
+        @@@ENDHEADER@@@
+		@@@METHODS@@@
         public ###PLURAL###()
             : base("###SINGULAR###", "###PK###") {
         }
@@ -32,48 +32,48 @@ namespace ###PROYECTO###.Models.DAO {
 		public void delete(int ###SINGULAR###_id) {
 			DB.ExecuteNonQuery("DELETE FROM" + tabla + " WHERE ###PK### = @1", ###SINGULAR###_id);
         }
-		@@@ENDDAOEXMETHODS@@@
+		@@@ENDMETHODS@@@
 		
-		@@@DAOEXUQ@@@
+		@@@UQ@@@
 		public ###SINGULAR### retrieveBy_###ATTRIBUTE###(object _value){
 			
             return DB.ExecuteReaderSingle<###SINGULAR###>("SELECT * FROM " + tabla + " WHERE ###COLUMN###  = @1", _value);
 			
 		}
-		@@@ENDDAOEXUQ@@@
+		@@@ENDUQ@@@
 		
-		@@@DAOEXIX@@@
+		@@@IX@@@
 		public List<###SINGULAR###> retrieveBy_###ATTRIBUTE###(object _value){
 			
             return DB.ExecuteReader<###SINGULAR###>("SELECT * FROM " + tabla + " WHERE ###COLUMN###  = @1", _value);
 			
 		}
-		@@@ENDDAOEXIX@@@
+		@@@ENDIX@@@
 		
-		@@@DAOEXPK@@@
+		@@@PK@@@
 		public ###SINGULAR### retrieveBy_###ATTRIBUTE###(object _value){
 			
             return DB.ExecuteReaderSingle<###SINGULAR###>("SELECT * FROM " + tabla + " WHERE ###COLUMN### = @1", _value);
 			
 		}
-		@@@ENDDAOEXPK@@@
+		@@@ENDPK@@@
 		
-		@@@DAOEXFK@@@
+		@@@FK@@@
 		public List<###SINGULAR###> retrieveBy_###ATTRIBUTE###(object _value){
 			
             return DB.ExecuteReader<###SINGULAR###>("SELECT * FROM " + tabla + " WHERE ###COLUMN###  = @1", _value);
 			
 		}
-		@@@ENDDAOEXFK@@@
+		@@@ENDFK@@@
 		
-		@@@DAOEXFKREF@@@
+		@@@FKREF@@@
 		public List<###SINGULAR###> retrieveBy_###ATTRIBUTE###(object _value){
 			
             return DB.ExecuteReader<###SINGULAR###>("SELECT * FROM " + tabla + " WHERE ###COLUMN###  = @1", _value);
 			
 		}
-		@@@ENDDAOEXFKREF@@@
-		@@@DAOEXEND@@@
+		@@@ENDFKREF@@@
+		@@@END@@@
     }
 }
-@@@ENDDAOEXEND@@@
+@@@ENDEND@@@

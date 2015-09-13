@@ -48,9 +48,14 @@
   <ItemGroup>
     <Compile Include="Clases\Column.cs" />
     <Compile Include="Clases\Controles.cs" />
+    <Compile Include="Clases\Fragement\FK.cs" />
+    <Compile Include="Clases\Fragement\IX.cs" />
+    <Compile Include="Clases\Fragement\PK.cs" />
+    <Compile Include="Clases\Fragement\Ref.cs" />
+    <Compile Include="Clases\Fragement\UK.cs" />
     <Compile Include="Clases\TipoDato.cs" />
     <Compile Include="Utils\DB.cs" />
-    <Compile Include="Clases\FileHandler.cs" />
+    <Compile Include="Clases\FilesHandler.cs" />
     <Compile Include="Utils\IBO.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -66,6 +71,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\Extensions.cs" />
     <Compile Include="Utils\MyException.cs" />
+    <Compile Include="Utils\PathsMngr.cs" />
+    <Compile Include="Utils\SectionsHandler.cs" />
+    <Compile Include="Utils\TiposDeDato.cs" />
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
     </EmbeddedResource>

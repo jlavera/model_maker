@@ -1,4 +1,4 @@
-@@@BOEXHEADER@@@
+@@@HEADER@@@
 using System;
 using System.Text;
 using System.Linq;
@@ -10,13 +10,13 @@ using ###PROYECTO###.Models.DAO;
 
 namespace ###PROYECTO###.Models.BO {
     public partial class ###SINGULAR### : IBO<###SINGULAR###>{
-		@@@ENDBOEXHEADER@@@
+		@@@ENDHEADER@@@
 	
-		@@@BOEXPROPERTIES@@@
+		@@@PROPERTIES@@@
         public ###TIPODEDATO### ###ATTRIBUTE### {get; set;}
-		@@@ENDBOEXPROPERTIES@@@
+		@@@ENDPROPERTIES@@@
         
-		@@@BOEXFK@@@
+		@@@FK@@@
 		
 		public ###TIPODEDATO### ###ATTRIBUTE### {get; set;}
 		private ###FKTABLE### _###ATTRIBUTE###_item;
@@ -32,9 +32,9 @@ namespace ###PROYECTO###.Models.BO {
 				_###ATTRIBUTE###_item = value;
 			}
         }
-		@@@ENDBOEXFK@@@
+		@@@ENDFK@@@
 		
-		@@@BOEXCONSTRUCTORES@@@
+		@@@CONSTRUCTORES@@@
 		
         public ###SINGULAR###() {}
 
@@ -42,64 +42,64 @@ namespace ###PROYECTO###.Models.BO {
             initialize(dr);
         }
 		
-		@@@ENDBOEXCONSTRUCTORES@@@
+		@@@ENDCONSTRUCTORES@@@
 		
-		@@@BOEXINICIALIZADORHEADER@@@
+		@@@INICIALIZADORHEADER@@@
 		
         public ###SINGULAR### initialize(DataRow _dr) {
 			
 			dr = _dr;
             DataColumnCollection dcc = dr.Table.Columns;
 	
-		@@@ENDBOEXINICIALIZADORHEADER@@@
+		@@@ENDINICIALIZADORHEADER@@@
 
-			@@@BOEXINICIALIZADORITEMSTRING@@@
+			@@@INICIALIZADORITEMSTRING@@@
             if (dcc.Contains("###COLUMN###"))
                 ###FIELD### = (dr["###COLUMN###"] == DBNull.Value) ? null : dr["###COLUMN###"].ToString();
-			@@@ENDBOEXINICIALIZADORITEMSTRING@@@
+			@@@ENDINICIALIZADORITEMSTRING@@@
 
-			@@@BOEXINICIALIZADORITEMCHAR@@@
+			@@@INICIALIZADORITEMCHAR@@@
             if (dcc.Contains("###COLUMN###"))
                 ###FIELD### = (dr["###COLUMN###"] == DBNull.Value) ? null : (char?) dr["###COLUMN###"].ToString()[0];
-			@@@ENDBOEXINICIALIZADORITEMCHAR@@@
+			@@@ENDINICIALIZADORITEMCHAR@@@
 
-			@@@BOEXINICIALIZADORITEMSHORT@@@
+			@@@INICIALIZADORITEMSHORT@@@
             if (dcc.Contains("###COLUMN###"))
                 ###FIELD### = (dr["###COLUMN###"] == DBNull.Value) ? null : (short?) Convert.ToInt16(dr["###COLUMN###"]);
-			@@@ENDBOEXINICIALIZADORITEMSHORT@@@
+			@@@ENDINICIALIZADORITEMSHORT@@@
 
-			@@@BOEXINICIALIZADORITEMINT@@@
+			@@@INICIALIZADORITEMINT@@@
             if (dcc.Contains("###COLUMN###"))
                 ###FIELD### = (dr["###COLUMN###"] == DBNull.Value) ? null : (int?) Convert.ToInt32(dr["###COLUMN###"]);
-			@@@ENDBOEXINICIALIZADORITEMINT@@@
+			@@@ENDINICIALIZADORITEMINT@@@
 
-			@@@BOEXINICIALIZADORITEMLONG@@@
+			@@@INICIALIZADORITEMLONG@@@
             if (dcc.Contains("###COLUMN###"))
                 ###FIELD### = (dr["###COLUMN###"] == DBNull.Value) ? null : (long?) Convert.ToInt64(dr["###COLUMN###"]);
-			@@@ENDBOEXINICIALIZADORITEMLONG@@@
+			@@@ENDINICIALIZADORITEMLONG@@@
 
-			@@@BOEXINICIALIZADORITEMDATETIME@@@
+			@@@INICIALIZADORITEMDATETIME@@@
             if (dcc.Contains("###COLUMN###"))
                 ###FIELD### = (dr["###COLUMN###"] == DBNull.Value) ? null : (DateTime?) Convert.ToDateTime(dr["###COLUMN###"]);
-			@@@ENDBOEXINICIALIZADORITEMDATETIME@@@
+			@@@ENDINICIALIZADORITEMDATETIME@@@
 
-			@@@BOEXINICIALIZADORITEMBOOL@@@
+			@@@INICIALIZADORITEMBOOL@@@
             if (dcc.Contains("###COLUMN###"))
                 ###FIELD### = (dr["###COLUMN###"] == DBNull.Value) ? null : (bool?) Convert.ToBoolean(dr["###COLUMN###"]);
-			@@@ENDBOEXINICIALIZADORITEMBOOL@@@
+			@@@ENDINICIALIZADORITEMBOOL@@@
 
-			@@@BOEXINICIALIZADORITEMBYTEARRAY@@@
+			@@@INICIALIZADORITEMBYTEARRAY@@@
             if (dcc.Contains("###COLUMN###"))
                 ###FIELD### = (dr["###COLUMN###"] == DBNull.Value) ? new byte[0] : Encoding.UTF8.GetBytes(dr["###COLUMN###"].ToString());
-			@@@ENDBOEXINICIALIZADORITEMBYTEARRAY@@@
+			@@@ENDINICIALIZADORITEMBYTEARRAY@@@
 
-		@@@BOEXINICIALIZADORFOOTER@@@
+		@@@INICIALIZADORFOOTER@@@
 			
             return this;
         }
-		@@@ENDBOEXINICIALIZADORFOOTER@@@
+		@@@ENDINICIALIZADORFOOTER@@@
 		
-		@@@BOEXMETHODS@@@
+		@@@METHODS@@@
 		
         private DataRow dr;
 		
@@ -124,15 +124,15 @@ namespace ###PROYECTO###.Models.BO {
             return aux.id == id;
 		}
 		
-		@@@ENDBOEXMETHODS@@@
+		@@@ENDMETHODS@@@
 		
-		@@@BOEXEXTERN@@@
+		@@@EXTERN@@@
 		public List<###FKTABLE###> retrieve_###FKTABLE###(){
 			return new ###FKTABLEPLURAL###().retrieveBy_###FKCOLUMN###();
 		}
-		@@@ENDBOEXEXTERN@@@
+		@@@ENDEXTERN@@@
 		
-		@@@BOEXEND@@@
+		@@@END@@@
     }
 }
-@@@ENDBOEXEND@@@
+@@@ENDEND@@@

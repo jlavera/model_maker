@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ModelMaker.Utils {
     public class MyException : Exception {
-        public MyException(string msg): base(msg) {
-        }
+        public MyException(string msg): base(msg) {}
+        public MyException(Exception ex) : base(ex.Message) { }
     }
 }

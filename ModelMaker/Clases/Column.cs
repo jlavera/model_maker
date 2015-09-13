@@ -29,6 +29,8 @@ namespace ModelMaker.Clases {
         public string foreignColumn { get; set; }
         public bool foreignKeyReferenced { get; set; }
 
+        public TipoDato TipoDato { get; set; }
+
         public string nombreAtributo {
             get {
                 return (NombreAtributo ?? columna);
@@ -40,12 +42,7 @@ namespace ModelMaker.Clases {
 
         public Column() { }
 
-        public Column(DataRow dr) {
-            setData(dr);
-        }
-
         public Column setData(DataRow dr) {
-
             tabla = dr["TABLE_NAME"].ToString();
             posicion = Convert.ToInt32(dr["ORDINAL_POSITION"]);
             columna = dr["COLUMN_NAME"].ToString();
@@ -61,6 +58,8 @@ namespace ModelMaker.Clases {
             foreignTable = dr["FKTABLE"].ToString();
             foreignColumn = dr["FKCOLUMN"].ToString();
             foreignKeyReferenced = Convert.ToBoolean(dr["FKREFERENCED"]);
+
+            TipoDato = TiposDeDato.GetByDBType(tipoDeDato);
 
             return this;
         }
