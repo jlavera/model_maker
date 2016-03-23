@@ -12,6 +12,6 @@ and you are good to go :D.
 
 ![Fisgón morbosón] (http://i.imgur.com/0BZRDgX.png)
 
-Next to come, query builder.
+Next to come, query builder and connections pool.
 
 PS: Oh, I forgot, it also provides lazy load for associated entities, that way you don't need to explicitly query to get them.
